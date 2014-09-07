@@ -1,15 +1,19 @@
+module cny70Holder(){
+
 depth = 5;
+depth_bottom = 10;
 width = 8;
-bottom = 8.5;
-nut_size = 3.2;
-nut_depth = 2;
+width_bottom = 10;
+bottom = 7.5;
+nut_size = 3.3;
+nut_depth = 3.2;
 
 difference(){
 
 union(){
 translate([0,0,bottom])
 cube(size = [depth,width,29], center = false);
-cube(size = [15,width,bottom], center = false);
+cube(size = [depth_bottom,width_bottom,bottom], center = false);
 }
 
 //holes
@@ -31,27 +35,25 @@ union(){
 }
 }
 
-translate([9.8,width/2],0){
+translate([4.8,width/2+2,0]){
 union(){
-	translate([0,0,bottom-nut_depth])
+	translate([0,0,bottom-nut_depth-0.99])
 	cylinder(h=nut_depth, r=nut_size, $fn=6);
-	cylinder(h=bottom, r=1.5, $fn=60);
+	cylinder(h=bottom-0.5, r=1.5, $fn=60);
 }
 }
 
-polyhedron
-	(	points = [
-						[0,0,0], [7.5,0,0], [7.5,width,0], [0,width,0],
-						[0,0,bottom/2], [0,width,bottom/2]
-					],
-		faces = [
-						[0,3,1],[3,2,1],
-						[0,1,4],
-						[3,5,2],
-						[4,1,5],[5,1,2],
-						[5,3,4],[4,3,0]
-					]
-
-	);
+translate([4.8,(width-6)/2+2,bottom-nut_depth-0.99])
+cube(size = [6,6,nut_depth],center=false);
 
 }
+
+}
+
+rotate([0,0,90])
+cny70Holder();
+
+translate([10,0,0])
+rotate([0,0,-90])
+mirror([1,0,0])
+cny70Holder();
