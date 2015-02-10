@@ -2,8 +2,8 @@ module zarazka(vyska, sirka, hloubka, kulicka, vyska_seseknuti=3){
 	difference(){
 		cube([sirka,hloubka,vyska]);
 
-		translate([0.5,kulicka+4,vyska/2])
-		rotate([0,90,-4])
+		translate([0.5,kulicka+2,vyska/2])
+		rotate([0,90,4])
 		cylinder(r1=kulicka,r2=kulicka,h=sirka+1);
 
 		polyhedron(points = [[0,0,0], [sirka,0,0], 
@@ -46,8 +46,8 @@ module lopatka(vyska_lopatka,tyc_uchyceni,
 
 	difference(){
 		union(){
-			translate([0,polomer_tyc,0])
-			cylinder(h=vyska_lopatka,r1=polomer_tyc,r2=polomer_tyc);
+			translate([0,polomer_tyc,-5])
+			cylinder(h=vyska_lopatka+30,r1=polomer_tyc,r2=polomer_tyc);
 			zarazka(vyska_zarazka, sirka_zarazka, 
 					hloubka_zarazka, kulicka_zarazka);
 
@@ -60,13 +60,6 @@ module lopatka(vyska_lopatka,tyc_uchyceni,
 					sirka_jazycek_konec, 
 					delka_jazycek-polomer_tyc);
 		}
-
-		// diry na tyc uchyceni
-		translate([0,polomer_tyc,0])
-		cylinder(h=vyska_zapusteni,r1=tyc_uchyceni-1,r2=tyc_uchyceni-1);
-
-		translate([0,polomer_tyc,vyska_lopatka-vyska_zapusteni])
-		cylinder(h=vyska_zapusteni,r1=tyc_uchyceni-1,r2=tyc_uchyceni-1);
 
 	}
 }
@@ -81,28 +74,27 @@ module uchyt(polomer_tyc, vyska, vyska_zapusteni, drzak = false){
 	
 		// zoubky lepsi drzeni
 		if(drzak == true){
-		for ( i = [0 : 5] )
+		for ( i = [0 : 19] )
 		{
-			translate([	cos(i * 60)*polomer_tyc,
-							sin(i * 60)*polomer_tyc,
+			translate([	cos(i * 18)*polomer_tyc,
+							sin(i * 18)*polomer_tyc,
 							4])
-			rotate(  i * 60, [0, 0, 1])
-			cube([2,20,5], center = true);
+			rotate( 45 + i * 18, [0, 0, 1])
+			cube([2,2,5], center = true);
 		}
 		}
 	}
 }
 
 
-//$fn=100;
-//lopatka(	30,5,
-//			30,28,5,12,
-//			30,2,6,46,
-//			5 );
+$fn=100;
+lopatka(	30,5,
+			30,28,5,12,
+			30,2,6,46,
+			5 );
 
 //translate([50,0,0])
 //uchyt(5,5,5);
 
-$fn=100;
-translate([0,0,0])
-uchyt(5,21,5,true);
+//translate([70,0,0])
+//uchyt(5,25,5,true);
